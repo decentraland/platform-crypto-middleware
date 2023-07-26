@@ -4,32 +4,22 @@ import {
   DecentralandSignatureData,
   DEFAULT_ERROR_FORMAT,
   DecentralandSignatureContext,
-  DecentralandSignatureRequiredContext,
+  DecentralandSignatureRequiredContext
 } from './types'
 import verify from './verify'
 
-export {
-  Options,
-  DecentralandSignatureData,
-  DecentralandSignatureContext,
-  DecentralandSignatureRequiredContext,
-}
+export { Options, DecentralandSignatureData, DecentralandSignatureContext, DecentralandSignatureRequiredContext }
 /**
  * Well Known Components
  */
 export function wellKnownComponents(
   options: Options
 ): IHttpServerComponent.IRequestHandler<
-  IHttpServerComponent.PathAwareContext<DecentralandSignatureContext, string>
+  IHttpServerComponent.PathAwareContext<DecentralandSignatureContext<any>, string>
 > {
   return async (ctx, next) => {
     try {
-      const data = await verify(
-        ctx.request.method,
-        ctx.url.pathname,
-        ctx.request.headers.raw(),
-        options
-      )
+      const data = await verify(ctx.request.method, ctx.url.pathname, ctx.request.headers.raw(), options)
 
       ctx.verification = data
     } catch (err) {
