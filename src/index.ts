@@ -8,7 +8,13 @@ import {
 } from './types'
 import verify from './verify'
 
-export { Options, DecentralandSignatureData, DecentralandSignatureContext, DecentralandSignatureRequiredContext }
+export {
+  Options,
+  DecentralandSignatureData,
+  DecentralandSignatureContext,
+  DecentralandSignatureRequiredContext,
+  verify
+}
 /**
  * Well Known Components
  */
