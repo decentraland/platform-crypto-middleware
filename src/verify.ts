@@ -6,7 +6,7 @@ import {
   DecentralandSignatureData,
   DEFAULT_CATALYST,
   DEFAULT_EXPIRATION,
-  VerifyAuthChainHeadersOptions,
+  VerifyAuthChainHeadersOptions
 } from './types'
 import RequestError from './errors'
 
@@ -14,20 +14,15 @@ export function isEIP1664AuthChain(authChain: AuthChain) {
   switch (authChain.length) {
     case 2:
     case 3:
-      return (
-        authChain[0].type === AuthLinkType.SIGNER &&
-        authChain[1].type === AuthLinkType.ECDSA_EIP_1654_EPHEMERAL
-      )
+      return authChain[0].type === AuthLinkType.SIGNER && authChain[1].type === AuthLinkType.ECDSA_EIP_1654_EPHEMERAL
     default:
       return false
   }
 }
 
-export function extractAuthChain(
-  headers: Record<string, string | string[] | undefined>
-) {
+export function extractAuthChain(headers: Record<string, string | string[] | undefined>) {
   let index = 0
-  let chain: AuthChain = []
+  const chain: AuthChain = []
   while (headers[AUTH_CHAIN_HEADER_PREFIX + index]) {
     try {
       const item = Array.isArray(headers[AUTH_CHAIN_HEADER_PREFIX + index])
@@ -49,15 +44,8 @@ export function extractAuthChain(
   return chain
 }
 
-export async function verifyPersonalSign(
-  authChain: AuthChain,
-  payload: string
-) {
-  const verification = await Authenticator.validateSignature(
-    payload,
-    authChain,
-    null as any
-  )
+export async function verifyPersonalSign(authChain: AuthChain, payload: string) {
+  const verification = await Authenticator.validateSignature(payload, authChain, null as any)
 
   if (!verification.ok) {
     throw new RequestError(`Invalid signature: ${verification.message}`, 401)
@@ -77,22 +65,16 @@ export async function verifyEIP1654Sign(
 
   let response
   try {
-    response = await options.fetcher.fetch(
-      `https://${catalyst.host}/lambdas/crypto/validate-signature`,
-      {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          'accept-type': 'application/json',
-        },
-        body: JSON.stringify({ authChain, timestamp: payload }),
-      }
-    )
+    response = await options.fetcher.fetch(`https://${catalyst.host}/lambdas/crypto/validate-signature`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'accept-type': 'application/json'
+      },
+      body: JSON.stringify({ authChain, timestamp: payload })
+    })
   } catch (err: any) {
-    throw new RequestError(
-      `Error connecting to catalyst "https://${catalyst.host}"`,
-      503
-    )
+    throw new RequestError(`Error connecting to catalyst "https://${catalyst.host}"`, 503)
   }
 
   let body = ''
@@ -100,16 +82,10 @@ export async function verifyEIP1654Sign(
     body = await response!.text()
     verification = JSON.parse(body)
   } catch (err: any) {
-    throw new RequestError(
-      `Invalid response from catalyst "https://${catalyst.host}": ${body}`,
-      503
-    )
+    throw new RequestError(`Invalid response from catalyst "https://${catalyst.host}": ${body}`, 503)
   }
 
-  if (
-    !verification.valid ||
-    verification.ownerAddress.toLowerCase() !== ownerAddress
-  ) {
+  if (!verification.valid || verification.ownerAddress.toLowerCase() !== ownerAddress) {
     throw new RequestError(`Invalid signature`, 401)
   }
 
@@ -145,10 +121,7 @@ export function verifyMetadata(value?: string | string[]): Record<string, any> {
   }
 }
 
-export function verifyExpiration(
-  timestamp: number,
-  options: VerifyAuthChainHeadersOptions
-) {
+export function verifyExpiration(timestamp: number, options: VerifyAuthChainHeadersOptions) {
   const expiration = options.expiration ?? DEFAULT_EXPIRATION
   const now = Date.now()
   if (timestamp + expiration < now) {
@@ -182,17 +155,12 @@ export default async function verify<P extends {} = {}>(
   const timestamp = verifyTimestamp(headers[AUTH_TIMESTAMP_HEADER])
   const metadata = verifyMetadata(headers[AUTH_METADATA_HEADER])
 
-  const payload = createPayload(
-    method,
-    path,
-    headers[AUTH_TIMESTAMP_HEADER],
-    headers[AUTH_METADATA_HEADER]
-  )
+  const payload = createPayload(method, path, headers[AUTH_TIMESTAMP_HEADER], headers[AUTH_METADATA_HEADER])
   const ownerAddress = await verifySign(authChain, payload, options)
   verifyExpiration(timestamp, options)
 
   return {
     auth: ownerAddress,
-    authMetadata: metadata as P,
+    authMetadata: metadata as P
   }
 }

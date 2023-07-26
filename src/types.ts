@@ -9,7 +9,7 @@ export const DEFAULT_CATALYST = 'https://peer-lb.decentraland.org'
 export const DEFAULT_EXPIRATION = (1000 * 60) | 0
 export const DEFAULT_ERROR_FORMAT = (err: RequestError) => ({
   ok: false,
-  message: err.message,
+  message: err.message
 })
 
 export type DecentralandSignatureData<P extends {} = {}> = {
