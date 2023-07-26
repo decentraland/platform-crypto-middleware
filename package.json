@@ -1,8 +1,7 @@
 {
-  "name": "decentraland-crypto-middleware",
+  "name": "@dcl/platform-crypto-middleware",
   "version": "0.0.0-development",
   "description": "Decentraland Authentication Middleware",
-  "main": "./lib",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "build:watch": "tsc -p tsconfig.json --watch",
