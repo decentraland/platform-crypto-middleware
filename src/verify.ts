@@ -145,7 +145,7 @@ export function createPayload(
   return [method, path, rawTimestamp, rawMetadata].join(':').toLowerCase()
 }
 
-export default async function verify<P extends {} = {}>(
+export default async function verify<P>(
   method: string,
   path: string,
   headers: Record<string, string | string[] | undefined>,

@@ -15,6 +15,13 @@
     "type": "git",
     "url": "git+https://github.com/decentraland/decentraland-crypto-middleware.git"
   },
+  "prettier": {
+    "printWidth": 120,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none",
+    "tabWidth": 2
+  },
   "keywords": [
     "middleware",
     "well-known-components"

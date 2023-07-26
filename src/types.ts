@@ -12,16 +12,16 @@ export const DEFAULT_ERROR_FORMAT = (err: RequestError) => ({
   message: err.message
 })
 
-export type DecentralandSignatureData<P extends {} = {}> = {
+export type DecentralandSignatureData<P> = {
   auth: string
   authMetadata: P
 }
 
-export type DecentralandSignatureContext<P extends {} = {}> = {
+export type DecentralandSignatureContext<P> = {
   verification?: DecentralandSignatureData<P>
 }
 
-export type DecentralandSignatureRequiredContext<P extends {} = {}> = {
+export type DecentralandSignatureRequiredContext<P> = {
   verification: DecentralandSignatureData<P>
 }
 
