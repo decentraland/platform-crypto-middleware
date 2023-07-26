@@ -4,7 +4,10 @@ import {
   DecentralandSignatureData,
   DEFAULT_ERROR_FORMAT,
   DecentralandSignatureContext,
-  DecentralandSignatureRequiredContext
+  DecentralandSignatureRequiredContext,
+  AUTH_CHAIN_HEADER_PREFIX,
+  AUTH_TIMESTAMP_HEADER,
+  AUTH_METADATA_HEADER
 } from './types'
 import verify from './verify'
 
@@ -13,6 +16,9 @@ export {
   DecentralandSignatureData,
   DecentralandSignatureContext,
   DecentralandSignatureRequiredContext,
+  AUTH_CHAIN_HEADER_PREFIX,
+  AUTH_TIMESTAMP_HEADER,
+  AUTH_METADATA_HEADER,
   verify
 }
 /**
