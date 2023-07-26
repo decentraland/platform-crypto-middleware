@@ -28,7 +28,7 @@ export function wellKnownComponents(
       const data = await verify(ctx.request.method, ctx.url.pathname, ctx.request.headers.raw(), options)
 
       ctx.verification = data
-    } catch (err) {
+    } catch (err: any) {
       if (!options.optional) {
         const onError = options.onError ?? DEFAULT_ERROR_FORMAT
         const status = err.statusCode || err.status || 500
