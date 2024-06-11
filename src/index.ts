@@ -1,13 +1,13 @@
 import { IHttpServerComponent } from '@well-known-components/interfaces'
 import {
-  Options,
-  DecentralandSignatureData,
-  DEFAULT_ERROR_FORMAT,
-  DecentralandSignatureContext,
-  DecentralandSignatureRequiredContext,
   AUTH_CHAIN_HEADER_PREFIX,
+  AUTH_METADATA_HEADER,
   AUTH_TIMESTAMP_HEADER,
-  AUTH_METADATA_HEADER
+  DecentralandSignatureContext,
+  DecentralandSignatureData,
+  DecentralandSignatureRequiredContext,
+  DEFAULT_ERROR_FORMAT,
+  Options
 } from './types'
 import verify from './verify'
 
@@ -21,19 +21,19 @@ export {
   AUTH_METADATA_HEADER,
   verify
 }
-/**
- * Well Known Components
- */
-export function wellKnownComponents(
+
+/** Well-Known Components */
+export function wellKnownComponents<P>(
   options: Options
 ): IHttpServerComponent.IRequestHandler<
-  IHttpServerComponent.PathAwareContext<DecentralandSignatureContext<any>, string>
+  IHttpServerComponent.PathAwareContext<
+    DecentralandSignatureContext<P> | DecentralandSignatureRequiredContext<P>,
+    string
+  >
 > {
   return async (ctx, next) => {
     try {
-      const data = await verify(ctx.request.method, ctx.url.pathname, ctx.request.headers.raw(), options)
-
-      ctx.verification = data
+      ctx.verification = await verify(ctx.request.method, ctx.url.pathname, ctx.request.headers.raw(), options)
     } catch (err: any) {
       if (!options.optional) {
         const onError = options.onError ?? DEFAULT_ERROR_FORMAT
