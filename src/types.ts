@@ -29,6 +29,7 @@ export type VerifyAuthChainHeadersOptions = {
   catalyst?: string
   expiration?: number
   fetcher: IFetchComponent
+  metadataValidator: (metadata: Record<string, any>) => boolean
 }
 
 export type SessionOptions = {
