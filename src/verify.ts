@@ -155,6 +155,11 @@ export default async function verify<P>(
   const timestamp = verifyTimestamp(headers[AUTH_TIMESTAMP_HEADER])
   const metadata = verifyMetadata(headers[AUTH_METADATA_HEADER])
 
+  // Validate metadata using provided validator (if any)
+  if (options.metadataValidator && !options.metadataValidator(metadata)) {
+    throw new RequestError(`Invalid metadata`, 400)
+  }
+
   const payload = createPayload(method, path, headers[AUTH_TIMESTAMP_HEADER], headers[AUTH_METADATA_HEADER])
   const ownerAddress = await verifySign(authChain, payload, options)
   verifyExpiration(timestamp, options)

@@ -5,7 +5,7 @@ export const AUTH_CHAIN_HEADER_PREFIX = 'x-identity-auth-chain-'
 export const AUTH_TIMESTAMP_HEADER = 'x-identity-timestamp'
 export const AUTH_METADATA_HEADER = 'x-identity-metadata'
 
-export const DEFAULT_CATALYST = 'https://peer-lb.decentraland.org'
+export const DEFAULT_CATALYST = 'https://peer.decentraland.org'
 export const DEFAULT_EXPIRATION = (1000 * 60) | 0
 export const DEFAULT_ERROR_FORMAT = (err: any) => ({
   ok: false,
@@ -29,6 +29,7 @@ export type VerifyAuthChainHeadersOptions = {
   catalyst?: string
   expiration?: number
   fetcher: IFetchComponent
+  metadataValidator?: (metadata: Record<string, any>) => boolean
 }
 
 export type SessionOptions = {
