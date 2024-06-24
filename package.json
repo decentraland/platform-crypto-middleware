@@ -35,7 +35,7 @@
   "homepage": "https://github.com/decentraland/platfom-crypto-middleware#readme",
   "dependencies": {
     "@dcl/crypto": "^3.4.3",
-    "@well-known-components/fetch-component": "^2.0.2",
+    "@well-known-components/fetch-component": "^3.0.0",
     "@well-known-components/interfaces": "^1.4.2"
   },
   "devDependencies": {
